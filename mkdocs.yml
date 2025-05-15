@@ -1,0 +1,117 @@
+site_name: FFMVic Architecture Open Docs
+site_url: https://example.com/
+site_description: Generic technical architecture and implementation guides.
+site_author: Department of Energy, Environment and Climate Action
+copyright: © State Government of Victoria 2025
+
+repo_url: https://github.com/vic-ffm/architecture-docs-open-public
+repo_name: vic-ffm/architecture-docs-open-public
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: public
+
+theme:
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    scheme: default
+    primary: custom
+    accent: custom
+  font:
+    text: Inclusive Sans
+    code: Fira Code
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.action.edit
+    - content.action.view
+
+plugins:
+  - search
+  - mermaid2:
+      version: 11.6.0
+  - git-revision-date-localized:
+      type: date
+      locale: en
+      timezone: UTC
+      fallback_to_build_date: true
+  - tags
+  - minify:
+      minify_html: true
+  - drawio:
+      toolbar: true
+      tooltips: true
+      edit: true
+      border: 5
+      viewer_js: "https://viewer.diagrams.net/js/viewer-static.min.js"
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __line
+      pygments_lang_class: true
+      extend_pygments_lang:
+        - name: mermaid
+          lang: html
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid # This class is crucial for CSS targeting
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - https://viewer.diagrams.net/js/viewer-static.min.js # Must be first
+  - javascripts/drawio-reload.js
+
+extra:
+  # Versioning with mike
+  version:
+    provider: mike
+    default: latest # Default alias users land on
+  generator: false
+
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/vic-ffm
+      name: FFMVic GitHub # Tooltip
+    - icon: material/web
+      link: https://www.ffm.vic.gov.au/
+      name: Forest Fire Management Victoria # Tooltip

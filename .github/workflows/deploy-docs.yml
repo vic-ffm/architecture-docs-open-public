@@ -1,0 +1,108 @@
+name: Deploy Versioned Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy-docs:
+    name: Build and Deploy Docs to GitHub Pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }} # Populated by 'Deploy with Mike'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Configure Git User
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Deploy with Mike
+        id: publish
+        run: |
+          mike deploy --push --update-aliases main latest --strict --verbose
+          mike set-default --push latest
+
+          SITE_URL=$(python -c "import yaml; f = open('mkdocs.yml', 'r'); config = yaml.safe_load(f); print(config.get('site_url', ''))" | tr -d '\r')
+          if [[ -z "$SITE_URL" ]]; then
+            REPO_OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            SITE_URL="https://${REPO_OWNER_LOWER}.github.io/${{ github.event.repository.name }}/"
+          fi
+          if [[ "${SITE_URL: -1}" != "/" ]]; then
+            SITE_URL="${SITE_URL}/"
+          fi
+          echo "page_url=${SITE_URL}" >> $GITHUB_OUTPUT
+          echo "Documentation deployed to: ${SITE_URL}"
+
+  # Build documentation on Pull Requests for validation (no deployment)
+  build-docs-on-pr:
+    name: Build Docs (PR Check)
+    if: github.event_name == 'pull_request' && github.base_ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-pr-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-pr-
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build site with MkDocs (no deploy)
+        run: |
+          mkdocs build --strict --verbose
