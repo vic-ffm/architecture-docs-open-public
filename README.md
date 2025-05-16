@@ -227,7 +227,6 @@ flowchart TB
 
   CI/CD["🛠️ GitHub Actions"] -->|Build & Deploy| Deployment
 
-
 ```
 
 ### 🚀 Deployment Triggers
@@ -250,16 +249,7 @@ flowchart LR
   DeployDev --> UserViewDev["👀 Users access dev/"]
   DeployLatest --> UserViewLatest["👀 Users access latest/"]
   SetRoot --> UserViewRoot["👀 Users visit /"]
-
-  classDef event fill:#ffcdd2,stroke:#c62828;
-  classDef action fill:#c8e6c9,stroke:#2e7d32;
-  classDef result fill:#fff3e0,stroke:#ef6c00;
-  class Trigger event
-  class Action action
-  class UserViewDev,UserViewLatest,UserViewRoot result
 ```
-
-*Diagram: Automated deployment workflow showing CI/CD responses to different Git events.*
 
 ### 🔗 Accessing Documentation Versions
 
@@ -286,16 +276,7 @@ flowchart TB
     v1_0["📂 1.0/"]
     v0_9["📂 0.9/"]
   end
-
-  classDef stable fill:#e8f5e9,stroke:#43a047;
-  classDef dev fill:#fff3e0,stroke:#ef6c00;
-  classDef archive fill:#f5f5f5,stroke:#9e9e9e;
-  class Stable stable
-  class DevPreview dev
-  class Archived archive
 ```
-
-*Diagram: Documentation version access structure showing relationship between aliases and concrete versions.*
 
 Legend:
 - 🟢 **Stable Releases** (Green): Production-ready versions
