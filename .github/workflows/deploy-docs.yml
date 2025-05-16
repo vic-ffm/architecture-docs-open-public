@@ -55,29 +55,19 @@ jobs:
       - name: Deploy with Mike
         id: publish
         run: |
-          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            VERSION_TAG="${{ github.ref#refs/tags/v }}"
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION_TAG="${GITHUB_REF#refs/tags/v}"
             echo "Deploying tagged version: $VERSION_TAG"
             mike deploy "$VERSION_TAG" --push --update-aliases latest
             mike set-default --push latest
             echo "Deployed version $VERSION_TAG and set as latest/default."
-          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          elif [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
             echo "Deploying main branch to 'main' version and 'dev' alias."
             mike deploy main --push --update-aliases dev
             echo "Deployed main branch to version 'main' (aliased as 'dev')."
           else
             echo "Skipping Mike deployment: Not a main branch or version tag push."
           fi
-          SITE_URL=$(python -c "import yaml; f = open('mkdocs.yml', 'r'); config = yaml.safe_load(f); print(config.get('site_url', ''))" | tr -d '\r')
-          if [[ -z "$SITE_URL" ]]; then
-            REPO_OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-            SITE_URL="https://${REPO_OWNER_LOWER}.github.io/${{ github.event.repository.name }}/"
-          fi
-          if [[ "${SITE_URL: -1}" != "/" ]]; then
-            SITE_URL="${SITE_URL}/"
-          fi
-          echo "page_url=${SITE_URL}" >> $GITHUB_OUTPUT
-          echo "Base documentation URL: ${SITE_URL}"
 
   # Build documentation on Pull Requests for validation (no deployment)
   build-docs-on-pr:
