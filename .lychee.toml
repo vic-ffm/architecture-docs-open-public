@@ -1,0 +1,35 @@
+verbose = true
+no-progress = true
+cache = true
+
+github-token = "$GITHUB_TOKEN"
+
+[network]
+timeout = 30          # seconds
+retry-wait-time = 5   # seconds
+max-retries = 3
+max-concurrency = 32
+
+# Exclude private IP ranges for security and to avoid local network checks
+exclude-all-private = true
+exclude-link-local = true
+exclude-loopback = true
+
+# Define a user agent
+user-agent = "OpenTechDocs Lychee Bot (+https://github.com/vic-ffm/open-tech-docs-public/actions)"
+
+[output]
+format = "markdown" # "compact", "detailed", "json", "markdown", "raw"
+mode = "emoji"      # "plain", "color", "emoji", "task"
+
+[filter]
+# Exclude common problematic links
+exclude = [
+    'localhost',
+    '127\.0\.0\.1',
+    'example\.com',
+    'linkedin\.com/company/',
+    'linkedin\.com/in/',
+    'twitter\.com/intent/tweet',
+    'facebook\.com/sharer/',
+]
