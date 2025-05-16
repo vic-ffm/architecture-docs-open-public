@@ -20,9 +20,6 @@ jobs:
     name: Build and Deploy Docs to GitHub Pages
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.publish.outputs.page_url }} # Populated by 'Deploy with Mike'
 
     steps:
       - name: Checkout repository
