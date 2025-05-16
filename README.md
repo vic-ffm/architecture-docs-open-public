@@ -135,7 +135,7 @@ All documentation content within this repository is licenced under the Creative 
 
 All code within this repository is licenced under a MIT-style Licence.
 
-Please see the [LICENSE](LICENSE) file in the root of the repository for the full text of the MIT License.
+Please see the [LICENSE](LICENSE) file in the root of the repository for the full text of the Licence.
 
 ## 🛠️ About this Site
 
