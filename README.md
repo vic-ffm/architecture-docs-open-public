@@ -153,7 +153,7 @@ For more advanced usage and other features, please refer to the [Material for Mk
 
 ### 🚀 Quick Start Guide
 
-1. **Install UV**:
+1. **Install `uv`**:
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
