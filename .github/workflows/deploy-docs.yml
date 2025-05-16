@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
@@ -37,15 +37,19 @@ jobs:
       - name: Cache Python dependencies
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          path: |
+            ~/.cache/pip
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
+            ${{ runner.os }}-uv-pip-
             ${{ runner.os }}-pip-
 
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: uv pip install -r requirements.txt
 
       - name: Configure Git User
         run: |
@@ -64,10 +68,9 @@ jobs:
             echo "Deploying main branch to 'main' version with 'dev' alias"
             mike deploy main dev --push --update-aliases
           else
-            echo "Skipping deployment"
+            echo "Skipping deployment for ref: $GITHUB_REF"
           fi
 
-  # Build documentation on Pull Requests for validation (no deployment)
   build-docs-on-pr:
     name: Build Docs (PR Check)
     if: github.event_name == 'pull_request' && github.base_ref == 'refs/heads/main'
@@ -89,16 +92,20 @@ jobs:
       - name: Cache Python dependencies
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-pr-${{ hashFiles('requirements.txt') }}
+          path: |
+            ~/.cache/pip
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-pip-pr-${{ hashFiles('requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-pr-
+            ${{ runner.os }}-uv-pip-pr-
+            ${{ runner.os }}-uv-pip-
             ${{ runner.os }}-pip-
 
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: uv pip install -r requirements.txt
 
       - name: Build site with MkDocs (no deploy)
         run: |
