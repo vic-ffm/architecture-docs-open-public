@@ -1,5 +1,5 @@
 site_name: FFMVic Architecture Open Docs
-site_url: https://example.com/
+site_url: https://vic-ffm.github.io/architecture-docs-open-public/
 site_description: Generic technical architecture and implementation guides.
 site_author: Department of Energy, Environment and Climate Action
 copyright: © State Government of Victoria 2025
@@ -44,8 +44,7 @@ theme:
 
 plugins:
   - search
-  - mermaid2:
-      version: 11.6.0
+  - mermaid2
   - git-revision-date-localized:
       type: date
       locale: en
@@ -81,7 +80,7 @@ markdown_extensions:
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
-          class: mermaid # This class is crucial for CSS targeting
+          class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.details
   - pymdownx.tabbed:
@@ -97,21 +96,23 @@ markdown_extensions:
 
 extra_css:
   - stylesheets/extra.css
+
 extra_javascript:
-  - https://viewer.diagrams.net/js/viewer-static.min.js # Must be first
-  - javascripts/drawio-reload.js
+  - javascript/drawio-reload.js
 
 extra:
   # Versioning with mike
   version:
     provider: mike
-    default: latest # Default alias users land on
+    default: latest
+    versions:
+      latest: main
   generator: false
 
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/vic-ffm
-      name: FFMVic GitHub # Tooltip
+      name: FFMVic GitHub
     - icon: material/web
       link: https://www.ffm.vic.gov.au/
-      name: Forest Fire Management Victoria # Tooltip
+      name: Forest Fire Management Victoria
