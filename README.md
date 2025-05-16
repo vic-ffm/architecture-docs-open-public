@@ -321,6 +321,7 @@ flowchart TB
 - **Tagged versions are permanent** - delete carefully!
 
 📘 **Need to fix a released version?**
+
 Create new tag (v1.0.1) and deploy - don't modify existing versions.
 
 ### 📜 Version Management Rules
@@ -333,6 +334,7 @@ Create new tag (v1.0.1) and deploy - don't modify existing versions.
 | List All Versions    | `mike list`                               | Shows deployed versions + aliases      |
 
 ### 🚨 Troubleshooting
+
 - **Broken Links**: Run `mkdocs build --strict` before committing
 - **Dependency Issues**: Try `uv pip compile requirements.in --output-file requirements.txt`
 - **Version Conflicts**: Use `uv clean` before recreating venv
