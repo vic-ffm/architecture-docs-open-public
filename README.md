@@ -16,7 +16,7 @@ If you are an employee of the Department of Energy, Environment and Climate Acti
 
 The latest version of the documentation is can be viewed at:
 
-**➡️ [vic-ffm.github.io/architecture-docs-open-public/](https://vic-ffm.github.io/architecture-docs-open-public/)**
+**➡️ [https://opendocs.ffm.vic.gov.au](https://opendocs.ffm.vic.gov.au/)**
 
 ## ✍️ Authoring Guide
 
