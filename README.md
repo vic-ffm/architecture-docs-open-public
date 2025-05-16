@@ -206,17 +206,59 @@ For more advanced usage and other features, please refer to the [Material for Mk
 
 ### 🔄 Versioning with Mike
 
-[Mike](https://github.com/jimporter/mike) provides integrated version management based on git branches. Versioning follows typical git branch strategy:
+[Mike](https://github.com/jimporter/mike) manages documentation versions through a **single deployment branch** (`gh-pages`) using a directory-based versioning system. Here's how it works:
 
-- `latest` alias always points to the `main` branch
-- Historical versions are maintained in separate branches
-- Mike preserves version history while allowing incremental updates
+#### 🌿 Version Structure
+```mermaid
+graph TD
+    A[Deployment Branch] --> B["📁 latest (alias)"]
+    A --> C["📁 main (version)"]
+    A --> D["📁 2.1 (version)"]
+    A --> E["📁 2.0 (version)"]
+    B -->|Symlink| C
+```
 
-### 🚧 Branching Rules
-1. Always create feature branches from `main`
-2. Never push directly to `main` - use PRs
-3. Keep branch names descriptive (e.g., `docs/angular20-features`)
-4. Delete merged branches after successful deployment
+#### Key Concepts
+1. **Version Directories**
+   Each release gets its own directory (e.g., `2.0/`, `main/`) containing full docs
+2. **Alias System**
+   - `latest` points to current stable version
+   - Maintains historical versions indefinitely
+3. **Branch Strategy**
+   ```mermaid
+   graph LR
+       S[Source Branch: main] -->|CI/CD| D[Deployment Branch: gh-pages]
+       F[Feature Branch] -->|PR| S
+       H[Hotfix Branch] -->|PR| S
+   ```
+
+#### Workflow Rules
+- 🏷️ **Version Naming**
+  Use semantic versioning (`2.0`, `2.1`) for releases
+  `main` is reserved for development/edge docs
+- 🔀 **Alias Management**
+  Update aliases when releasing:
+  ```bash
+  mike deploy 2.2 latest --push --update-aliases
+  ```
+- 🚫 **No Direct Commits**
+  All versioning operations must go through:
+  1. GitHub PR process
+  2. `mike` CLI commands
+  3. CI/CD automation
+
+#### Deployment Process
+1. New commits to `main` trigger CI/CD
+2. Mike creates/updates version directory
+3. Aliases updated via symlinks
+4. Full version history preserved
+
+#### Accessing Versions
+| Version Type | URL Format |
+|--------------|------------|
+| Specific release | `https://opendocs.ffm.vic.gov.au/2.0/` |
+| Latest stable | `https://opendocs.ffm.vic.gov.au/latest/` |
+| Development | `https://opendocs.ffm.vic.gov.au/main/` |
 
 ### 🚨 Troubleshooting
 - **Broken Links**: Run `mkdocs build --strict` before committing

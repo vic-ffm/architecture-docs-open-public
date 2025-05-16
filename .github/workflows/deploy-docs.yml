@@ -3,6 +3,7 @@ name: Deploy Versioned Documentation
 on:
   push:
     branches: [main]
+    tags: ["v*"] # Trigger on pushes to main AND on pushes of tags like v0.1, v1.0.0
   pull_request:
     branches: [main]
 
@@ -18,9 +19,10 @@ concurrency:
 jobs:
   build-and-deploy-docs:
     name: Build and Deploy Docs to GitHub Pages
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: |
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,9 +55,19 @@ jobs:
       - name: Deploy with Mike
         id: publish
         run: |
-          mike deploy --push --update-aliases main latest
-          mike set-default --push latest
-
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            VERSION_TAG="${{ github.ref#refs/tags/v }}"
+            echo "Deploying tagged version: $VERSION_TAG"
+            mike deploy "$VERSION_TAG" --push --update-aliases latest
+            mike set-default --push latest
+            echo "Deployed version $VERSION_TAG and set as latest/default."
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "Deploying main branch to 'main' version and 'dev' alias."
+            mike deploy main --push --update-aliases dev
+            echo "Deployed main branch to version 'main' (aliased as 'dev')."
+          else
+            echo "Skipping Mike deployment: Not a main branch or version tag push."
+          fi
           SITE_URL=$(python -c "import yaml; f = open('mkdocs.yml', 'r'); config = yaml.safe_load(f); print(config.get('site_url', ''))" | tr -d '\r')
           if [[ -z "$SITE_URL" ]]; then
             REPO_OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
@@ -65,7 +77,7 @@ jobs:
             SITE_URL="${SITE_URL}/"
           fi
           echo "page_url=${SITE_URL}" >> $GITHUB_OUTPUT
-          echo "Documentation deployed to: ${SITE_URL}"
+          echo "Base documentation URL: ${SITE_URL}"
 
   # Build documentation on Pull Requests for validation (no deployment)
   build-docs-on-pr:
@@ -102,4 +114,4 @@ jobs:
 
       - name: Build site with MkDocs (no deploy)
         run: |
-          mkdocs build
+          mkdocs build --strict
