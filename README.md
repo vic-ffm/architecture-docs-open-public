@@ -227,13 +227,8 @@ flowchart TB
 
   CI/CD["🛠️ GitHub Actions"] -->|Build & Deploy| Deployment
 
-  classDef source fill:#e1f5fe,stroke:#039be5;
-  classDef deploy fill:#f0f4c3,stroke:#827717;
-  class Source source
-  class Deployment deploy
-```
 
-*Diagram: Relationship between source code branches and deployed documentation versions. The `gh-pages` branch contains version directories and symbolic link aliases.*
+```
 
 ### 🚀 Deployment Triggers
 
