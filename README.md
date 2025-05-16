@@ -196,69 +196,167 @@ For more advanced usage and other features, please refer to the [Material for Mk
    mkdocs build --strict --verbose
    ```
 
-### 🌍 Deployment Workflow
+## 🌐 Versioning & Deployment with Mike
 
-| Action | GitHub Workflow | Result |
-|--------|-----------------|--------|
-| Push to `main` | `Deploy Docs` workflow runs | 🚀 Builds & deploys to [opendocs.ffm.vic.gov.au](https://opendocs.ffm.vic.gov.au) |
-| Create PR | `Build Docs (PR Check)` runs | ✅ Validates build without deployment |
-| Merge to `main` | Triggers full deployment | 📚 Updates live documentation |
+### 🏗️ How It Works
 
-### 🔄 Versioning with Mike
+📦 **Two Branch System**
+There are two key Git branches:
 
-[Mike](https://github.com/jimporter/mike) manages documentation versions through a **single deployment branch** (`gh-pages`) using a directory-based versioning system. Here's how it works:
+| Branch         | Purpose                                      | Example Locations                     |
+|----------------|----------------------------------------------|---------------------------------------|
+| `main`         | Source files (Markdown, config)             | `docs/`, `mkdocs.yml`                 |
+| `gh-pages`     | Built documentation (HTML/CSS/JS)           | `1.0/`, `latest/`, `dev/`             |
 
-#### 🌿 Version Structure
+### 🏗️ How It Works
+
 ```mermaid
-graph TD
-    A[Deployment Branch] --> B["📁 latest (alias)"]
-    A --> C["📁 main (version)"]
-    A --> D["📁 2.1 (version)"]
-    A --> E["📁 2.0 (version)"]
-    B -->|Symlink| C
+flowchart TB
+  subgraph Source["📦 Source Code Repo"]
+    direction TB
+    main["🌿 main branch"] -->|Merged PRs| CI/CD
+    tag_v1["🏷️ Tag: v1.0"] -->|Git push| CI/CD
+  end
+
+  subgraph Deployment["🚀 Deployment Branch (gh-pages)"]
+    direction TB
+    version_1["📂 1.0/"] -->|Alias| latest["🔗 latest/"]
+    version_main["📂 main/"] -->|Alias| dev["🔗 dev/"]
+    root["🌍 /"] -->|Redirect| latest
+  end
+
+  CI/CD["🛠️ GitHub Actions"] -->|Build & Deploy| Deployment
+
+  classDef source fill:#e1f5fe,stroke:#039be5;
+  classDef deploy fill:#f0f4c3,stroke:#827717;
+  class Source source
+  class Deployment deploy
 ```
 
-#### Key Concepts
-1. **Version Directories**
-   Each release gets its own directory (e.g., `2.0/`, `main/`) containing full docs
-2. **Alias System**
-   - `latest` points to current stable version
-   - Maintains historical versions indefinitely
-3. **Branch Strategy**
-   ```mermaid
-   graph LR
-       S[Source Branch: main] -->|CI/CD| D[Deployment Branch: gh-pages]
-       F[Feature Branch] -->|PR| S
-       H[Hotfix Branch] -->|PR| S
+*Diagram: Relationship between source code branches and deployed documentation versions. The `gh-pages` branch contains version directories and symbolic link aliases.*
+
+### 🚀 Deployment Triggers
+
+| Event                 | Action                                                                 | Access URL                           |
+|-----------------------|-----------------------------------------------------------------------|--------------------------------------|
+| Push to `main`        | Updates `main/` version + `dev` alias                                 | `https://opendocs.ffm.vic.gov.au/dev` |
+| Create tag (v1.0)     | Creates `1.0/` version + updates `latest` alias                       | `https://opendocs.ffm.vic.gov.au/1.0` |
+| Merge PR to `main`    | Rebuilds `main/` + `dev`                                              | `https://opendocs.ffm.vic.gov.au/main` |
+
+```mermaid
+flowchart LR
+  Trigger((("🎯 Event"))) --> Action
+  subgraph Action["⚙️ GitHub Actions Response"]
+    direction TB
+    PushMain["📥 Push to main"] --> BuildMain["🛠 Build main/"] --> DeployDev["🚀 Update dev/ alias"]
+    CreateTag["🏷️ New v* tag"] --> BuildVer["🛠 Build X.Y/"] --> DeployLatest["🚀 Update latest/"] --> SetRoot["📍 Redirect / to latest/"]
+  end
+
+  DeployDev --> UserViewDev["👀 Users access dev/"]
+  DeployLatest --> UserViewLatest["👀 Users access latest/"]
+  SetRoot --> UserViewRoot["👀 Users visit /"]
+
+  classDef event fill:#ffcdd2,stroke:#c62828;
+  classDef action fill:#c8e6c9,stroke:#2e7d32;
+  classDef result fill:#fff3e0,stroke:#ef6c00;
+  class Trigger event
+  class Action action
+  class UserViewDev,UserViewLatest,UserViewRoot result
+```
+
+*Diagram: Automated deployment workflow showing CI/CD responses to different Git events.*
+
+### 🔗 Accessing Documentation Versions
+
+```mermaid
+flowchart TB
+  Navigation["🌐 Site Navigation"] --> VersionSelector
+  VersionSelector["📋 Version Selector Menu"] --> Stable
+  VersionSelector --> DevPreview
+  VersionSelector --> Archived
+
+  subgraph Stable["✅ Stable Releases"]
+    direction LR
+    Latest["🔗 latest/"] -->|Points to| v1_2["📂 1.2/"]
+    v1_1["📂 1.1/"]
+  end
+
+  subgraph DevPreview["🧪 Development Previews"]
+    direction LR
+    DevAlias["🔗 dev/"] -->|Points to| main["📂 main/"]
+  end
+
+  subgraph Archived["🗃 Historical Versions"]
+    direction LR
+    v1_0["📂 1.0/"]
+    v0_9["📂 0.9/"]
+  end
+
+  classDef stable fill:#e8f5e9,stroke:#43a047;
+  classDef dev fill:#fff3e0,stroke:#ef6c00;
+  classDef archive fill:#f5f5f5,stroke:#9e9e9e;
+  class Stable stable
+  class DevPreview dev
+  class Archived archive
+```
+
+*Diagram: Documentation version access structure showing relationship between aliases and concrete versions.*
+
+Legend:
+- 🟢 **Stable Releases** (Green): Production-ready versions
+- 🟠 **Development Previews** (Orange): Bleeding-edge updates
+- ⚪ **Historical Versions** (Gray): Archived for reference
+```
+
+📱 **Direct Links Table**
+
+| Version Type          | URL Pattern                          | Example                              |
+|-----------------------|--------------------------------------|--------------------------------------|
+| Latest Stable         | `/latest/`                          | https://opendocs.ffm.vic.gov.au/latest |
+| Specific Release      | `/[version]/`                       | https://opendocs.ffm.vic.gov.au/1.0  |
+| Development Preview   | `/dev/` or `/main/`                 | https://opendocs.ffm.vic.gov.au/dev  |
+| Historical            | `/[old-version]/`                   | https://opendocs.ffm.vic.gov.au/0.9  |
+
+### 🛠️ Creating a New Release
+
+
+1. **Prepare Release**
+   Ensure `main` branch has latest approved docs:
+   ```bash
+   git checkout main && git pull
    ```
 
-#### Workflow Rules
-- 🏷️ **Version Naming**
-  Use semantic versioning (`2.0`, `2.1`) for releases
-  `main` is reserved for development/edge docs
-- 🔀 **Alias Management**
-  Update aliases when releasing:
-  ```bash
-  mike deploy 2.2 latest --push --update-aliases
-  ```
-- 🚫 **No Direct Commits**
-  All versioning operations must go through:
-  1. GitHub PR process
-  2. `mike` CLI commands
-  3. CI/CD automation
+2. **Create Version Tag**
+   Use semantic versioning (X.Y.Z):
+   ```bash
+   git tag v1.1.0 && git push origin v1.1.0
+   ```
 
-#### Deployment Process
-1. New commits to `main` trigger CI/CD
-2. Mike creates/updates version directory
-3. Aliases updated via symlinks
-4. Full version history preserved
+3. **Auto-Deploy**
+   GitHub Actions will:
+   - ✅ Build v1.1.0 docs
+   - 📂 Create `gh-pages/1.1.0/`
+   - 🔄 Update `latest` alias
+   - 🌍 Redirect root URL to new version
 
-#### Accessing Versions
-| Version Type | URL Format |
-|--------------|------------|
-| Specific release | `https://opendocs.ffm.vic.gov.au/2.0/` |
-| Latest stable | `https://opendocs.ffm.vic.gov.au/latest/` |
-| Development | `https://opendocs.ffm.vic.gov.au/main/` |
+### ❗ Important Notes
+
+- **Never modify** `gh-pages` manually - use Mike commands
+- **Aliases are pointers** - don't store files in them
+- **Tagged versions are permanent** - delete carefully!
+
+📘 **Need to fix a released version?**
+Create new tag (v1.0.1) and deploy - don't modify existing versions.
+
+### 📜 Version Management Rules
+```markdown
+| Action               | Command Example                           | Result                                 |
+|----------------------|-------------------------------------------|----------------------------------------|
+| Deploy New Version   | `mike deploy 1.2 latest --update-aliases` | Creates 1.2/, updates latest alias     |
+| Retire Old Version   | `mike delete 0.9`                         | Removes 0.9/ directory                 |
+| Update Default       | `mike set-default latest`                 | Root URL redirects to latest version   |
+| List All Versions    | `mike list`                               | Shows deployed versions + aliases      |
+`
 
 ### 🚨 Troubleshooting
 - **Broken Links**: Run `mkdocs build --strict` before committing
