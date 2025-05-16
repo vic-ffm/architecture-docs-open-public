@@ -58,15 +58,13 @@ jobs:
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
             VERSION_TAG="${GITHUB_REF#refs/tags/v}"
             echo "Deploying tagged version: $VERSION_TAG"
-            mike deploy "$VERSION_TAG" --push --update-aliases latest
+            mike deploy "$VERSION_TAG" latest --push --update-aliases
             mike set-default --push latest
-            echo "Deployed version $VERSION_TAG and set as latest/default."
           elif [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
-            echo "Deploying main branch to 'main' version and 'dev' alias."
-            mike deploy main --push --update-aliases dev
-            echo "Deployed main branch to version 'main' (aliased as 'dev')."
+            echo "Deploying main branch to 'main' version with 'dev' alias"
+            mike deploy main dev --push --update-aliases
           else
-            echo "Skipping Mike deployment: Not a main branch or version tag push."
+            echo "Skipping deployment"
           fi
 
   # Build documentation on Pull Requests for validation (no deployment)
