@@ -1,14 +1,14 @@
 ---
-title: FFMVic Architecture Open Docs
+title: FFMVic Open Tech Docs
 hide:
   - navigation
   - toc
   - footer
 ---
 
-# FFMVic Architecture Open Docs
+# FFMVic Open Tech Docs
 
-This site provides generic technical architecture and implementation guides. Below is a list of available project documentation.
+This website contains generic technical documentation and implementation guides. Below is a list of the currently available  documentation.
 
 <div class="grid cards" markdown>
 
@@ -25,4 +25,4 @@ This site provides generic technical architecture and implementation guides. Bel
 
 ## About This Site
 
-This site hosts generic technical architecture documents and implementation guides produced by the Department of Energy, Environment and Climate Action (DEECA) for Forest Fire Management Victoria (FFMVic).
+This site hosts generic technical documentation and implementation guides produced by the Department of Energy, Environment and Climate Action (DEECA) for Forest Fire Management Victoria (FFMVic).

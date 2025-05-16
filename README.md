@@ -1,16 +1,16 @@
-# FFMVic Architecture Open Docs
+# FFMVic Open Tech Docs
 
 [![Deploy Docs](https://img.shields.io/github/actions/workflow/status/vic-ffm/architecture-docs-open-public/deploy-docs.yml?label=Deploy%20Docs)](https://github.com/vic-ffm/architecture-docs-open-public/actions/workflows/deploy-docs.yml)
 [![Documentation License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Code License: MIT](https://img.shields.io/badge/Code-MIT-yellow.svg)](LICENSE)
 
-This repository contains generic technical architecture and implementation guides produced by the Department of Energy, Environment and Climate Action (DEECA) for Forest Fire Management Victoria (FFMVic). These documents are intended for public access and use.
+This repository contains generic technical documentation and implementation guides produced by the Department of Energy, Environment and Climate Action (DEECA) for Forest Fire Management Victoria (FFMVic). These documents are intended for public access and use.
 
 ## ⚠️ Important Note for Department Staff
 
 The content published in this repository is **open to the public**. All documents and materials hosted here are publicly accessible.
 
-If you are an employee of the Department of Energy, Environment and Climate Action (DEECA) or an associated Victorian Government entity, you **must obtain approval from your manager** before contributing or publishing any new material to this repository. Please ensure that any information shared complies with all relevant departmental policies regarding public information disclosure.
+If you are an employee of the Department of Energy, Environment and Climate Action (DEECA) or an associated Victorian Government entity, you **must obtain approval from your manager** before contributing or publishing any material to this repository. Please ensure that any information shared complies with all relevant departmental policies regarding public information disclosure.
 
 ## 📖 Accessing the Documentation
 
@@ -127,11 +127,11 @@ For more advanced usage and other features, please refer to the [Material for Mk
 
 ### Documentation
 
-All documentation within this repository is licenced under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/).
+All documentation contained in this repository is licenced under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/).
 
 ### Code
 
-All code within this repository is licenced under a MIT-style Licence.
+All source code contained in this repository is licenced under a MIT-style Licence.
 
 Please see the [LICENSE](LICENSE) file in the root of the repository for the full text of the Licence.
 
