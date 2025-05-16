@@ -12,6 +12,28 @@ The content published in this repository is **open to the public**. All document
 
 If you are an employee of the Department of Energy, Environment and Climate Action (DEECA) or an associated Victorian Government entity, you **must obtain approval from your manager** before contributing or publishing any material to this repository. Please ensure that any information shared complies with all relevant departmental policies regarding public information disclosure.
 
+## 🚨 Commit Guidelines: What to Share & What to Shun 🚨
+
+⚠️ **IMPORTANT READ BEFORE CONTRIBUTING** ⚠️
+
+| ✅ Allowed Content                | 🚫 Strictly Prohibited Content        |
+|-----------------------------------|---------------------------------------|
+| 📚 Generic architectural documentation | 🔒 **Any portion of FFMVic's existing apps/config/infra** |
+| 🎉 Showcases of new platform features | 🕵️ **Personally Identifiable Information (PII)** |
+| 📝 Conceptual code snippets demonstrating patterns | 🔑 **Passwords/credentials of any kind** |
+| 📊 Best practice implementation examples | 🛡️ **Authentication tokens/API keys** |
+| 🧠 Educational/theoretical content | 🔌 **SSH keys or cryptographic secrets** |
+| 🌐 Generic framework version comparisons | 💸 **Financial/payment system details** |
+| 📂 Open source code snippets | 🗄️ **Internal database schemas/credentials** |
+
+### 🔴 Important Notes:
+- **Never commit** "just a quick test" with real credentials
+- **Never include** screenshots containing sensitive data
+- **When in doubt**, ask maintainers first! 🙋♂️
+
+🚩 **Found something sensitive?**
+Immediately contact repo maintainers and follow [GitHub's guide to removing sensitive data](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+
 ## 📖 Accessing the Documentation
 
 The latest version of the documentation is can be viewed at:
@@ -122,6 +144,84 @@ This repo is published using Material for MkDocs. To take advantage of its featu
 *   **"Edit this page" Link:** Direct link to the source file on GitHub.
 
 For more advanced usage and other features, please refer to the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/reference/) and [Python Markdown](https://python-markdown.github.io/extensions/) documentation.
+
+## 🛠️ Local Development Setup & Deployment
+
+### 📋 Prerequisites
+- Python 3.10+ installed and available in `$PATH`
+- Git
+
+### 🚀 Quick Start Guide
+
+1. **Install UV**:
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+2. **Clone Repository**:
+   ```bash
+   git clone https://github.com/vic-ffm/open-tech-docs-public.git
+   cd open-tech-docs-public
+   ```
+
+3. **Create Virtual Environment**:
+   ```bash
+   uv venv
+   ```
+
+4. **Activate Virtual Environment**:
+   ```bash
+   # For bash/zsh:
+   source .venv/bin/activate
+
+   # For fish shell:
+   source .venv/bin/activate.fish
+
+   # There is also support for nu shell, csh, powershell, etc.
+   ```
+
+5. **Install Dependencies**:
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+
+6. **Start Development Server**:
+   ```bash
+   mike serve
+   ```
+   🔥 Features hot reloading at [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+7. **Production Build** (optional):
+   ```bash
+   mkdocs build --strict --verbose
+   ```
+
+### 🌍 Deployment Workflow
+
+| Action | GitHub Workflow | Result |
+|--------|-----------------|--------|
+| Push to `main` | `Deploy Docs` workflow runs | 🚀 Builds & deploys to [opendocs.ffm.vic.gov.au](https://opendocs.ffm.vic.gov.au) |
+| Create PR | `Build Docs (PR Check)` runs | ✅ Validates build without deployment |
+| Merge to `main` | Triggers full deployment | 📚 Updates live documentation |
+
+### 🔄 Versioning with Mike
+
+Versioning follows typical git branch strategy:
+
+- `latest` alias always points to the `main` branch
+- Historical versions are maintained in separate branches
+- Mike preserves version history while allowing incremental updates
+
+### 🚧 Important Branching Rules
+1. Always create feature branches from `main`
+2. Never push directly to `main` - use PRs
+3. Keep branch names descriptive (e.g., `docs/angular20-features`)
+4. Delete merged branches after successful deployment
+
+### 🚨 Troubleshooting
+- **Broken Links**: Run `mkdocs build --strict` before committing
+- **Dependency Issues**: Try `uv pip compile requirements.in --output-file requirements.txt`
+- **Version Conflicts**: Use `uv clean` before recreating venv
 
 ## 📜 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a> Licence
 
