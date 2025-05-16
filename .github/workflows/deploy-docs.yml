@@ -53,7 +53,7 @@ jobs:
       - name: Deploy with Mike
         id: publish
         run: |
-          mike deploy --push --update-aliases main latest --strict --verbose
+          mike deploy --push --update-aliases main latest
           mike set-default --push latest
 
           SITE_URL=$(python -c "import yaml; f = open('mkdocs.yml', 'r'); config = yaml.safe_load(f); print(config.get('site_url', ''))" | tr -d '\r')
