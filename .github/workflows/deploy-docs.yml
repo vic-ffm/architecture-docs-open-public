@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages-${{ github.ref }}"
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -48,14 +48,11 @@ jobs:
       - name: Install uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
-      - name: Create and Activate Virtual Environment
+      - name: Create and Activate Virtual Environment & Install Dependencies
         run: |
           uv venv .venv
-          source .venv/bin/activate
-          echo "$PWD/.venv/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies
-        run: uv pip install -r requirements.txt
+          uv pip install --python .venv/bin/python -r requirements.txt
+          echo "$(pwd)/.venv/bin" >> $GITHUB_PATH
 
       - name: Configure Git User
         run: |
@@ -78,7 +75,7 @@ jobs:
           fi
 
   build-docs-on-pr:
-    name: Build Docs (PR Check)
+    name: Build Docs & Run Quality Checks (PR)
     if: github.event_name == 'pull_request' && github.base_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
@@ -105,20 +102,52 @@ jobs:
           key: ${{ runner.os }}-uv-venv-pr-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-uv-venv-pr-
-            ${{ runner.os }}-uv-venv- # Fallback to main build cache if PR cache miss
+            ${{ runner.os }}-uv-venv-
 
       - name: Install uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
-      - name: Create and Activate Virtual Environment
+      - name: Create and Activate Virtual Environment & Install Dependencies
         run: |
           uv venv .venv
           source .venv/bin/activate
           echo "$PWD/.venv/bin" >> $GITHUB_PATH
+          uv pip install -r requirements.txt
 
-      - name: Install dependencies
-        run: uv pip install -r requirements.txt
-
-      - name: Build site with MkDocs (no deploy)
+      - name: Validate mkdocs.yml configuration
         run: |
+          python -c "import yaml, sys
+          print('Validating mkdocs.yml...')
+          try:
+              with open('mkdocs.yml', 'r') as f:
+                  config = yaml.safe_load(f)
+              assert config.get('extra', {}).get('version', {}).get('provider') == 'mike', \
+                  'mkdocs.yml: extra.version.provider must be \"mike\"'
+              assert config.get('site_dir') == 'public', \
+                  'mkdocs.yml: site_dir must be \"public\" for link checker path'
+              print('mkdocs.yml configuration checks passed.')
+          except Exception as e:
+              print(f'Error validating mkdocs.yml: {e}', file=sys.stderr)
+              sys.exit(1)"
+
+      - name: Build site with MkDocs (Strict Mode)
+        run: |
+          echo "Building site with MkDocs in strict mode..."
           mkdocs build --strict
+          echo "MkDocs build successful."
+
+      - name: Restore Lychee Cache
+        uses: actions/cache@v4
+        id: lychee-cache
+        with:
+          path: .lycheecache
+          key: lychee-cache-${{ github.ref }}
+          restore-keys: |
+            lychee-cache-
+
+      - name: Check for broken external links with Lychee Action
+        uses: lycheeverse/lychee-action@v2
+        id: lychee
+        with:
+          args: --cache --no-progress --verbose "./public/**/*.html"
+          token: ${{ secrets.GITHUB_TOKEN }} # Using the standard GITHUB_TOKEN
