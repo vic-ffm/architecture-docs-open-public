@@ -1,0 +1,130 @@
+/* Hide mermaid code from ToC */
+
+.md-nav--secondary .md-nav__link[href*="flowchart-"] {
+    display: none;
+}
+
+/*    Tarnook Colours   Definitions  */
+
+[data-md-color-scheme="default"] {
+    --md-primary-fg-color: #007b4b; /* Tarnook Green/02 - hero-green */
+    --md-primary-fg-color--light: #429d7a; /* Tarnook Green/03 - medium-green  */
+    --md-primary-fg-color--dark: #00573f; /* Tarnook Green/01 - dark-green  */
+    --md-primary-bg-color: #ffffff; /* Tarnook White  */
+    --md-primary-bg-color--light: #edf7ed; /* Tarnook Green/05 - extra-light */
+
+    --md-accent-fg-color: #2e71ba; /* Tarnook Blue/02*/
+    --md-accent-fg-color--transparent: #2e71ba29; /* Blue/02 with ~16% opacity */
+    --md-accent-bg-color: #ffffff; /* Tarnook White  */
+    --md-accent-bg-color--light: #e5f6fd; /* Tarnook Blue/04 - extra-light  */
+
+    --md-default-fg-color: #1a1a1a; /* Tarnook Gray/02 */
+    --md-default-fg-color--light: #666666; /* Tarnook Gray/04  */
+    --md-default-fg-color--lighter: #7f7f7f; /* Tarnook Gray/05  */
+    --md-default-fg-color--lightest: #f5f5f5; /* Tarnook Gray/09  */
+    --md-default-bg-color: #ffffff; /* Tarnook White */
+    --md-default-bg-color--light: #f5f5f5;
+    --md-default-bg-color--lighter: #e6e6e6; /* Tarnook Gray/08 */
+    --md-default-bg-color--lightest: #f5f5f5; /*  Tarnook Gray/09 */
+
+    --md-code-fg-color: #333333; /* Tarnook Gray/03 */
+    --md-code-bg-color: #f5f5f5; /* Tarnook Gray/09  */
+    --md-code-hl-color: #ffdd00; /* Tarnook Focus  */
+    --md-code-hl-accent-color: var(--md-accent-fg-color);
+    --md-code-hl-keyword-color: #255c96; /* Tarnook Blue/01 */
+
+    --md-typeset-color: var(--md-default-fg-color);
+
+    --md-typeset-a-color: #0052cc; /* Tarnook link-blue */
+    --md-typeset-del-color: #af272f; /* Tarnook Dark error Red/01  */
+    --md-typeset-kbd-color: #333333; /* Tarnook Gray/03  */
+    --md-typeset-kbd-bg-color: #e6e6e6; /* Tarnook Gray/08  */
+    --md-typeset-kbd-border-color: #cccccc; /* Tarnook Gray/07  */
+    --md-typeset-mark-color: #ffdd004d; /* Tarnook Focus with ~30% opacity */
+    --md-typeset-table-color: #cccccc; /* Tarnook Gray/07  */
+    --md-typeset-table-color--light: #e6e6e6; /* Lighter table lines */
+
+    --md-admonition-fg-color: var(--md-default-fg-color);
+    --md-admonition-bg-color: var(--md-default-bg-color--light);
+
+    --md-info-fg-color: #255c96; /* Tarnook Blue/01 */
+    --md-info-bg-color: #e5f6fd; /* Tarnook Blue/04  */
+
+    --md-success-fg-color: #00573f; /* Tarnook Green/01  */
+    --md-success-bg-color: #edf7ed; /* Tarnook Green/05  */
+
+    --md-warning-fg-color: #663c00; /* Tarnook Warning dark */
+    --md-warning-bg-color: #fff3cd; /* Tarnook Light Warning alert */
+
+    --md-danger-fg-color: #af272f; /* Tarnook Dark error - Red/01 */
+    --md-danger-bg-color: #fdeded; /* Tarnook Light error - Red/03 */
+
+    --md-footer-fg-color: #ffffff; /* Tarnook White */
+    --md-footer-fg-color--light: #edf7ed; /* Tarnook Green/05  */
+    --md-footer-fg-color--lighter: #cccccc; /* Tarnook Gray/07  */
+    --md-footer-bg-color: #00573f; /* Tarnook Green/01  */
+    --md-footer-bg-color--dark: #003a2a; /* A darker shade of Green/01 */
+
+    --md-tab-fg-color: var(--md-default-fg-color--light);
+    --md-tab-fg-color--active: var(--md-primary-fg-color);
+    --md-tab-bg-color: transparent;
+    --md-tab-bg-color--active: transparent;
+    --md-tab-border-color: transparent;
+    --md-tab-border-color--active: var(--md-primary-fg-color);
+
+    --md-search-result-highlight-color: #ffdd00; /* Tarnook Focus  */
+    --md-tooltip-bg-color: #0d0d0d; /* Tarnook Gray/01  */
+    --md-tooltip-fg-color: #ffffff; /* Tarnook White  */
+}
+
+/* General Typography & Layout Enhancements */
+
+body {
+    line-height: 1.6;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+    font-weight: 600;
+}
+.md-typeset h1 {
+    color: var(--md-tooltip-bg-color);
+    margin-block-start: 1rem;
+    margin-block-end: 0.5rem;
+}
+
+/* Custom styling for navigation titles*/
+.md-nav__title {
+    background-color: var(--md-primary-bg-color--light);
+    border-bottom: 1px solid var(--md-primary-fg-color);
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+.md-nav__title .md-nav__icon {
+    /* Icon color contrasts enhancement */
+    color: #00573f;
+}
+
+.md-typeset a:hover {
+    color: #002762;
+    text-decoration: underline;
+}
+
+/* Code Styling Code & Annotation Styling */
+
+.md-annotation {
+    display: inline-block;
+    border-radius: 0.25rem;
+    padding-inline: 0.5em;
+    font-size: 0.8em;
+    margin-inline-end: 0.5em;
+    background-color: var(--md-default-bg-color--light);
+    color: var(--md-default-fg-color--light);
+    border: 1px solid var(--md-default-bg-color--lighter);
+}
+
+.md-typeset pre {
+    scrollbar-gutter: stable;
+    border-left: 3px solid var(--md-primary-fg-color--light);
+}
