@@ -319,14 +319,13 @@ flowchart TB
 Create new tag (v1.0.1) and deploy - don't modify existing versions.
 
 ### 📜 Version Management Rules
-```markdown
+
 | Action               | Command Example                           | Result                                 |
 |----------------------|-------------------------------------------|----------------------------------------|
 | Deploy New Version   | `mike deploy 1.2 latest --update-aliases` | Creates 1.2/, updates latest alias     |
 | Retire Old Version   | `mike delete 0.9`                         | Removes 0.9/ directory                 |
 | Update Default       | `mike set-default latest`                 | Root URL redirects to latest version   |
 | List All Versions    | `mike list`                               | Shows deployed versions + aliases      |
-`
 
 ### 🚨 Troubleshooting
 - **Broken Links**: Run `mkdocs build --strict` before committing
