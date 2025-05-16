@@ -278,12 +278,6 @@ flowchart TB
   end
 ```
 
-Legend:
-- 🟢 **Stable Releases** (Green): Production-ready versions
-- 🟠 **Development Previews** (Orange): Bleeding-edge updates
-- ⚪ **Historical Versions** (Gray): Archived for reference
-```
-
 📱 **Direct Links Table**
 
 | Version Type          | URL Pattern                          | Example                              |
