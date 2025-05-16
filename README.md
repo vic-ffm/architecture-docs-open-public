@@ -83,7 +83,7 @@ This repo is published using Material for MkDocs. To take advantage of its featu
         print("Hello")
     ```
 
-    1.  This is a greeting function.
+1.  This is a greeting function.
     ```
 *   **Copy Code Button:** Automatically added to code blocks.
 *   **Keyboard Keys:** `++ctrl+alt+del++`.
