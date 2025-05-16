@@ -201,6 +201,7 @@ For more advanced usage and other features, please refer to the [Material for Mk
 ### 🏗️ How It Works
 
 📦 **Two Branch System**
+
 There are two key Git branches:
 
 | Branch         | Purpose                                      | Example Locations                     |
