@@ -1,6 +1,6 @@
 # FFMVic Architecture Open Docs
 
-[![Deploy Docs](https://github.com/vic-ffm/architecture-docs-open-public/assets/images/GH_Actions.svg)](https://github.com/vic-ffm/architecture-docs-open-public/actions/workflows/deploy.yml)
+[![Deploy Docs](https://raw.githubusercontent.com/vic-ffm/architecture-docs-open-public/main/assets/images/GH_Actions.svg)](https://github.com/vic-ffm/architecture-docs-open-public/actions/workflows/deploy.yml)
 [![Documentation License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Code License: MIT](https://img.shields.io/badge/Code-MIT-yellow.svg)](LICENSE)
 
