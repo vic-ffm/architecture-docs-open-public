@@ -82,6 +82,7 @@ This repo is published using Material for MkDocs. To take advantage of its featu
     def greet(): # (1)
         print("Hello")
     ```
+
     1.  This is a greeting function.
     ```
 *   **Copy Code Button:** Automatically added to code blocks.
