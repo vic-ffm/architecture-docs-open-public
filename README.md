@@ -29,14 +29,14 @@ If you are an employee of the Department of Energy, Environment and Climate Acti
 ### 🔴 Important Notes:
 - **Never commit** "just a quick test" with real credentials
 - **Never include** screenshots containing sensitive data
-- **When in doubt**, ask maintainers first! 🙋♂️
+- **When in doubt**, ask maintainers first! 🙋
 
 🚩 **Found something sensitive?**
 Immediately contact repo maintainers and follow [GitHub's guide to removing sensitive data](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
 
 ## 📖 Accessing the Documentation
 
-The latest version of the documentation is can be viewed at:
+The latest version of the documentation can be viewed at:
 
 **➡️ [https://opendocs.ffm.vic.gov.au](https://opendocs.ffm.vic.gov.au/)**
 
@@ -206,13 +206,13 @@ For more advanced usage and other features, please refer to the [Material for Mk
 
 ### 🔄 Versioning with Mike
 
-Versioning follows typical git branch strategy:
+[Mike](https://github.com/jimporter/mike) provides integrated version management based on git branches. Versioning follows typical git branch strategy:
 
 - `latest` alias always points to the `main` branch
 - Historical versions are maintained in separate branches
 - Mike preserves version history while allowing incremental updates
 
-### 🚧 Important Branching Rules
+### 🚧 Branching Rules
 1. Always create feature branches from `main`
 2. Never push directly to `main` - use PRs
 3. Keep branch names descriptive (e.g., `docs/angular20-features`)
