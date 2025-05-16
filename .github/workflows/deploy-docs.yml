@@ -34,19 +34,25 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Cache Python dependencies
+      - name: Cache Python dependencies and venv
         uses: actions/cache@v4
         with:
           path: |
             ~/.cache/pip
             ~/.cache/uv
-          key: ${{ runner.os }}-uv-pip-${{ hashFiles('requirements.txt') }}
+            .venv
+          key: ${{ runner.os }}-uv-venv-${{ hashFiles('requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-uv-pip-
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-uv-venv-
 
       - name: Install uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Create and Activate Virtual Environment
+        run: |
+          uv venv .venv
+          source .venv/bin/activate
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: uv pip install -r requirements.txt
@@ -61,7 +67,7 @@ jobs:
         run: |
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
             VERSION_TAG="${GITHUB_REF#refs/tags/v}"
-            echo "Deploying tagged version: $VERSION_TAG"
+            echo "Deploying tagged version: $VERSION_TAG as 'latest'"
             mike deploy "$VERSION_TAG" latest --push --update-aliases
             mike set-default --push latest
           elif [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
@@ -89,20 +95,26 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Cache Python dependencies
+      - name: Cache Python dependencies and venv
         uses: actions/cache@v4
         with:
           path: |
             ~/.cache/pip
             ~/.cache/uv
-          key: ${{ runner.os }}-uv-pip-pr-${{ hashFiles('requirements.txt') }}
+            .venv
+          key: ${{ runner.os }}-uv-venv-pr-${{ hashFiles('requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-uv-pip-pr-
-            ${{ runner.os }}-uv-pip-
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-uv-venv-pr-
+            ${{ runner.os }}-uv-venv- # Fallback to main build cache if PR cache miss
 
       - name: Install uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Create and Activate Virtual Environment
+        run: |
+          uv venv .venv
+          source .venv/bin/activate
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: uv pip install -r requirements.txt
