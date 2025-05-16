@@ -290,19 +290,25 @@ flowchart TB
 
 
 1. **Prepare Release**
+
    Ensure `main` branch has latest approved docs:
+
    ```bash
    git checkout main && git pull
    ```
 
 2. **Create Version Tag**
+
    Use semantic versioning (X.Y):
+
    ```bash
    git tag v1.1 && git push origin v1.1
    ```
 
 3. **Auto-Deploy**
+
    GitHub Actions will:
+
    - ✅ Build v1.1 docs
    - 📂 Create `gh-pages/1.1/`
    - 🔄 Update `latest` alias
