@@ -10,8 +10,8 @@ copyright: |
     CC BY 4.0
   </a>
 
-repo_url: https://github.com/vic-ffm/architecture-docs-open-public
-repo_name: vic-ffm/architecture-docs-open-public
+repo_url: https://github.com/vic-ffm/open-tech-docs-public
+repo_name: vic-ffm/open-tech-docs-public
 edit_uri: edit/main/docs/
 docs_dir: docs
 site_dir: public

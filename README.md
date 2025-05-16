@@ -1,6 +1,6 @@
 # FFMVic Open Tech Docs
 
-[![Deploy Docs](https://img.shields.io/github/actions/workflow/status/vic-ffm/architecture-docs-open-public/deploy-docs.yml?label=Deploy%20Docs)](https://github.com/vic-ffm/architecture-docs-open-public/actions/workflows/deploy-docs.yml)
+[![Deploy Docs](https://img.shields.io/github/actions/workflow/status/vic-ffm/open-tech-docs-public/deploy-docs.yml?label=Deploy%20Docs)](https://github.com/vic-ffm/open-tech-docs-public/actions/workflows/deploy-docs.yml)
 [![Documentation License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Code License: MIT](https://img.shields.io/badge/Code-MIT-yellow.svg)](LICENSE)
 
