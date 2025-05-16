@@ -2,7 +2,13 @@ site_name: FFMVic Architecture Open Docs
 site_url: https://vic-ffm.github.io/architecture-docs-open-public/
 site_description: Generic technical architecture and implementation guides.
 site_author: Department of Energy, Environment and Climate Action
-copyright: © State Government of Victoria 2025
+copyright: |
+  © State Government of Victoria 2025 –
+  <a href="https://creativecommons.org/licenses/by/4.0/" aria-label="Creative Commons Attribution 4.0 International License">
+    <i class="fab fa-creative-commons"></i>
+    <i class="fab fa-creative-commons-by"></i>
+    CC BY 4.0
+  </a>
 
 repo_url: https://github.com/vic-ffm/architecture-docs-open-public
 repo_name: vic-ffm/architecture-docs-open-public
